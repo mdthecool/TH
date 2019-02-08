@@ -17,10 +17,6 @@ public class JProblem2Main {
 	//   **************************** YOUR CODE STARTS HERE  ************************************** 
 	//   ****************************     Hayypy coding     ************************
 	 
-	System.out.println("Rading file" + args[0]);
-        Dataset<Row> df  = sc.read().load(args[0]);
-        df.show();		
-	System.out.println(df.count());
     }
 
 }

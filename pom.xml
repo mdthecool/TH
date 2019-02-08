@@ -6,121 +6,95 @@
     <description></description>
     <groupId>national</groupId>
     <artifactId>techhack</artifactId>
-    <version>2</version>
+    <version>1</version>
     <packaging>jar</packaging>
 
     <properties>
         <target.dir>${project.basedir}/target</target.dir>
+        <scala.version>2.11</scala.version>
+        <scala.minor.version>8</scala.minor.version>
+        <spark.version>2.2.2</spark.version>
     </properties>
 	<repositories>
-	<repository>
-		<id>artifactory.oraclecorp.com_OCI_REPO</id>
-		<name>Oracle artifactory OCI Repo</name>
-		<url>http://artifactory-slc.oraclecorp.com/artifactory/pic-libs-release-local</url>
-		<releases>
-		<enabled>true</enabled>
-		</releases>
-		<snapshots>
-		<enabled>true</enabled>
-		</snapshots>
-	</repository>
+        <!-- ADD YOUR REPO'S HERE -->
 	</repositories>
 
 
 	<dependencies>
-<!--		<dependency>
-            <groupId>oracle.cloud</groupId>
-            <artifactId>storage.api</artifactId>
-            <version>13.0.0</version>
-		</dependency> -->
-		
-<!--		<dependency>
-			<groupId>com.oracle.oci.sdk</groupId>
-			<artifactId>oci-java-sdk-full</artifactId>
-			<version>1.2.14</version>
-		</dependency> -->
-		<dependency>
+	<dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>2.7.0</version>
-		</dependency>
-		<dependency>
+	</dependency>
+	<dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-auth</artifactId>
             <version>2.7.0</version>
-		</dependency>
+	</dependency>
 
-		<dependency>
+	<dependency>
 		    <groupId>org.apache.spark</groupId>
-		    <artifactId>spark-sql_2.10</artifactId>
-		    <version>2.2.0</version>
-		</dependency>
+		    <artifactId>spark-sql_2.11</artifactId>
+		    <version>${spark.version}</version>
+	</dependency>
 
-		 <dependency>
-	        <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-			<version>2.7.2</version>
-		</dependency>
+         <!-- Scala -->
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}.${scala.minor.version}</version>
+    </dependency>
 
-	    <dependency>
-		    <groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-scala_2.10</artifactId>
-	        <version>2.7.2</version>
-	    </dependency>
+    <!-- Spark -->
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-hive_${scala.version}</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.codehaus.jettison/jettison -->
-		<dependency>
-		    <groupId>org.codehaus.jettison</groupId>
-		    <artifactId>jettison</artifactId>
-		    <version>1.4.0</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
-		<dependency>
-		    <groupId>com.sun.jersey</groupId>
-		    <artifactId>jersey-client</artifactId>
-		    <version>1.19</version>
-		</dependency>
-
+	<dependency>
+	    <groupId>org.scala-lang</groupId>
+		<artifactId>scala-xml</artifactId>
+	    <version>2.11.0-M4</version>
+	</dependency>
 
 	</dependencies>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
-                    only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.jacoco</groupId>
-                                        <artifactId>
-                                            jacoco-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [0.7.4.201502262128,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>prepare-agent</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <!-- Maven Assembly Plugin  -->
+
+	<build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <generatedSourcesDirectory>${basedir}/src/generated/java</generatedSourcesDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.2</version>
+        <inherited>true</inherited>
+        <executions>
+            <execution>
+                <id>scala-compile-first</id>
+                <phase>process-resources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                    <goal>compile</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>scala-test-compile</id>
+                <phase>process-test-resources</phase>
+                <goals>
+                    <goal>testCompile</goal>
+                </goals>
+            </execution>
+        </executions>
+      </plugin>
+	  <!-- Maven Assembly Plugin  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -141,14 +115,7 @@
                     </execution>
                 </executions> 
             </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
+    </plugins>
+  </build>
+   
 </project>

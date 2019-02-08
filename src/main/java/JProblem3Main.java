@@ -14,10 +14,8 @@ public class JProblem3Main {
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         SQLContext sc = new SQLContext(jsc);       
 	//   **************************** YOUR CODE STARTS HERE  ************************************** 
+	//   Happy coding :)
 	 
-        Dataset<Row> df  = sc.read().load(args[0]);
-        df.show();		
-	System.out.println(df.count());
     }
 
 }
