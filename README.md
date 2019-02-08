@@ -1,6 +1,6 @@
-# Oracle National TechHack 2019 
+# National TH 2019 
 
-Welcome to national techhack 2019. 
+Welcome to national TH  2019. 
 
 ## Overview 
 
