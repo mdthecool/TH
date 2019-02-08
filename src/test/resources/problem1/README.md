@@ -8,4 +8,5 @@ Given the IPL deliveries data set with columns :  match_id,inning,batting_team,b
 
 ##  Sample output 
 201
+
 39
